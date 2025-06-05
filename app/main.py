@@ -6,10 +6,16 @@ This module initializes the FastAPI application and includes all routers and mid
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.routers import auth
+from app.core.config import get_settings
+from app.db.session import create_db_and_tables
+
+settings = get_settings()
+
 app = FastAPI(
-    title="FastAPI ML Service",
+    title=settings.PROJECT_NAME,
     description="A production-ready FastAPI application for serving machine learning models",
-    version="0.1.0",
+    version=settings.VERSION,
 )
 
 # Configure CORS
@@ -20,6 +26,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include routers
+app.include_router(auth.router, prefix=f"{settings.API_V1_STR}/auth", tags=["auth"])
+
+
+@app.on_event("startup")
+async def on_startup():
+    """Initialize database on startup."""
+    create_db_and_tables()
 
 
 @app.get("/")
