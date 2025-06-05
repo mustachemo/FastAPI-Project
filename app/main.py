@@ -6,7 +6,7 @@ This module initializes the FastAPI application and includes all routers and mid
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routers import auth
+from app.api.routers import auth, ml_model
 from app.core.config import get_settings
 from app.db.session import create_db_and_tables
 
@@ -29,6 +29,8 @@ app.add_middleware(
 
 # Include routers
 app.include_router(auth.router, prefix=f"{settings.API_V1_STR}/auth", tags=["auth"])
+
+app.include_router(ml_model.router, prefix=f"{settings.API_V1_STR}/ml", tags=["ml"])
 
 
 @app.on_event("startup")
