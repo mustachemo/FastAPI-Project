@@ -35,9 +35,9 @@ class Settings(BaseSettings):
 
     # Database
     POSTGRES_SERVER: str = "localhost"
-    POSTGRES_USER: str = "postgres"
-    POSTGRES_PASSWORD: str = "postgres"
-    POSTGRES_DB: str = "fastapi_ml"
+    POSTGRES_USER: str = "mustachemo"  # Changed default to system user
+    POSTGRES_PASSWORD: str = ""  # Empty by default, should be set in .env
+    POSTGRES_DB: str = "mustachemo"
 
     # Redis
     REDIS_HOST: str = "localhost"
